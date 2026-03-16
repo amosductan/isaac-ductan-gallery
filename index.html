@@ -801,6 +801,45 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Pair: Paintings 2 & 3 -->
+            <div class="gallery-pair">
+                <div class="artwork-card" onclick="openLightbox(1)">
+                    <div class="artwork-image-wrap">
+                        <img src="images/painting2.png" alt="Wild Swirl by Isaac Ductan" loading="lazy">
+                    </div>
+                    <div class="artwork-info">
+                        <span class="artwork-number">No. 02</span>
+                        <h3 class="artwork-title">Wild Swirl</h3>
+                        <p class="artwork-medium">Digital Painting &middot; 2026</p>
+                        <p class="artwork-desc">Bold sweeping arcs of lime green, sky blue, fiery red, and golden yellow crash into each other across a stormy canvas. Dark strokes anchor the composition while bright colors burst through like sunlight after a thunderstorm &mdash; pure abstract energy from the world's youngest expressionist.</p>
+                        <div class="color-dots">
+                            <span class="color-dot" style="background: #8bc34a;"></span>
+                            <span class="color-dot" style="background: #64b5f6;"></span>
+                            <span class="color-dot" style="background: #ef5350;"></span>
+                            <span class="color-dot" style="background: #ffeb3b;"></span>
+                            <span class="color-dot" style="background: #212121;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="artwork-card" onclick="openLightbox(2)">
+                    <div class="artwork-image-wrap">
+                        <img src="images/painting3.png" alt="Dark Fire by Isaac Ductan" loading="lazy">
+                    </div>
+                    <div class="artwork-info">
+                        <span class="artwork-number">No. 03</span>
+                        <h3 class="artwork-title">Dark Fire</h3>
+                        <p class="artwork-medium">Digital Painting &middot; 2026</p>
+                        <p class="artwork-desc">Deep black strokes dominate the canvas like a night sky, while bold red shapes burn through the darkness and soft purple glows at the edge like a distant galaxy. A dramatic, moody piece that proves even the youngest artists can paint with intensity and emotional depth.</p>
+                        <div class="color-dots">
+                            <span class="color-dot" style="background: #212121;"></span>
+                            <span class="color-dot" style="background: #ef5350;"></span>
+                            <span class="color-dot" style="background: #ab47bc;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -841,8 +880,8 @@
 
             <div class="artist-details">
                 <div class="artist-detail">
-                    <div class="artist-detail-value">1</div>
-                    <div class="artist-detail-label">Original Work</div>
+                    <div class="artist-detail-value">3</div>
+                    <div class="artist-detail-label">Original Works</div>
                 </div>
                 <div class="artist-detail">
                     <div class="artist-detail-value">2026</div>
@@ -898,6 +937,8 @@
         // Lightbox
         const artworks = [
             { src: 'images/painting1.png', title: 'Color Explosion', sub: 'No. 01 \u00b7 Digital Painting \u00b7 2026' },
+            { src: 'images/painting2.png', title: 'Wild Swirl', sub: 'No. 02 \u00b7 Digital Painting \u00b7 2026' },
+            { src: 'images/painting3.png', title: 'Dark Fire', sub: 'No. 03 \u00b7 Digital Painting \u00b7 2026' },
         ];
 
         let currentIndex = 0;
