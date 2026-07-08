@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Look 1: The Race Track</title>
+<style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+        --paper: #fffdf8;
+        --ink: #26221e;
+        --ink-soft: #6b645c;
+        --red: #e63946;
+        --green: #2fbf4f;
+        --lime: #b5d637;
+        --sky: #4aa8e0;
+        --orange: #ff8a3d;
+        --card-shadow: rgba(40, 32, 20, 0.14);
+    }
+    body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+        padding: clamp(1.6rem, 4vw, 3.5rem) 1rem 112px;
+        overflow-x: hidden;
+        position: relative;
+        min-height: 100vh;
+    }
+    .marker { font-family: 'Segoe Print', 'Comic Sans MS', 'Chalkboard SE', cursive; }
+
+    /* Racing squiggle lines zooming across the page */
+    .track { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .track svg { position: absolute; width: 100%; height: auto; opacity: .5; }
+    @media (prefers-reduced-motion: no-preference) {
+        .track .dash path { stroke-dasharray: 14 10; animation: race 2.2s linear infinite; }
+        @keyframes race { to { stroke-dashoffset: -48; } }
+    }
+
+    .page { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; }
+
+    .masthead { text-align: center; padding: 1rem 0 .6rem; }
+    h1 {
+        font-size: clamp(2.5rem, 8vw, 4.2rem);
+        line-height: 1.2;
+        display: inline-flex; align-items: center; gap: clamp(.4rem, 2vw, 1.1rem);
+    }
+    h1 .word {
+        background: linear-gradient(transparent 68%, var(--lime) 68% 96%, transparent 96%);
+        padding: 0 .12em;
+    }
+    .tagline { margin-top: .7rem; font-size: clamp(1rem, 3vw, 1.3rem); color: var(--ink-soft); }
+    .start-line {
+        margin: 1.4rem auto 0; width: min(420px, 80%); height: 14px; border-radius: 4px;
+        background: repeating-conic-gradient(var(--ink) 0% 25%, var(--paper) 0% 50%) 0 0/28px 14px;
+        border: 2px solid var(--ink);
+    }
+
+    section { padding: 2.8rem 0 0; }
+    .sec-title {
+        display: flex; align-items: center; justify-content: center; gap: .7rem;
+        font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+        margin-bottom: 1.7rem;
+    }
+    .sec-title svg { flex: none; }
+
+    .art-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem 1.6rem; }
+    @media (max-width: 640px) { .art-cards { grid-template-columns: 1fr; } }
+    .art-card {
+        background: white;
+        border: 2.5px solid var(--ink);
+        border-radius: 14px;
+        padding: 10px 10px 6px;
+        box-shadow: 5px 6px 0 var(--card-shadow);
+        transform: rotate(-1.4deg);
+    }
+    .art-card:nth-child(2n) { transform: rotate(1.3deg); }
+    .art-card:nth-child(3n) { transform: rotate(-0.6deg); }
+    .art-card img { width: 100%; height: 210px; object-fit: cover; border-radius: 8px; display: block; }
+    .art-card .t { display:flex; align-items:center; justify-content:center; gap:.5rem; font-size: 1.15rem; font-weight: 700; padding: .6rem .2rem .4rem; }
+    .art-card .t svg { flex:none; }
+    .art-card.wide { grid-column: 1 / -1; }
+    .art-card.wide img { height: 260px; }
+
+    .about .card {
+        max-width: 640px; margin: 0 auto; text-align: center;
+        background: white;
+        border: 2.5px solid var(--ink);
+        border-radius: 24px;
+        padding: 2rem 2.2rem;
+        box-shadow: 6px 7px 0 var(--card-shadow);
+        font-size: 1.15rem; line-height: 1.7;
+        position: relative;
+    }
+    .about .card strong { color: var(--red); }
+    .about .card .corner { position: absolute; top: -18px; right: -12px; transform: rotate(14deg); }
+
+    .soon .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+    @media (max-width: 780px) { .soon .cards { grid-template-columns: 1fr; } }
+    .soon .card {
+        background: #f6fbee;
+        border: 2px dashed var(--green);
+        border-radius: 20px;
+        padding: 1.5rem 1.2rem;
+        text-align: center;
+    }
+    .soon .card svg { width: 34px; height: 34px; color: var(--ink-soft); margin-bottom: .6rem; }
+    .soon .card h3 { font-size: 1.15rem; margin-bottom: .3rem; }
+    .soon .card p { font-size: .93rem; color: var(--ink-soft); }
+    .soon .chip {
+        display: inline-block; margin-top: .85rem;
+        font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 700;
+        color: white; background: var(--green);
+        border-radius: 999px; padding: .34rem .9rem;
+    }
+
+    .band {
+        margin-top: 3rem;
+        background: var(--ink);
+        color: #fdf9f0;
+        border-radius: 20px;
+        padding: 2.1rem 1.4rem 2.3rem;
+        text-align: center;
+    }
+    .band svg.squig { width: min(340px, 80%); height: 26px; margin-bottom: .8rem; }
+    .band h4 { font-size: clamp(1.15rem, 3.5vw, 1.5rem); font-weight: 600; }
+    .band h4 .marker { font-size: 1.15em; color: var(--lime); }
+    .band p { margin-top: .4rem; opacity: .8; font-size: .95rem; }
+
+    .review {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+        background: #1d1a16; color: white;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: .9rem 1.2rem; gap: .8rem;
+    }
+    .review .name { font-size: 1rem; font-weight: 600; text-align: center; }
+    .review .name small { display: block; font-weight: 400; color: rgba(255,255,255,0.6); font-size: .78rem; }
+    .review a { color: white; text-decoration: none; display: inline-flex; align-items: center; gap: .45rem; border: 1.5px solid rgba(255,255,255,0.45); border-radius: 999px; padding: .65rem 1.15rem; font-size: .95rem; font-weight: 600; }
+    .review a:hover { background: rgba(255,255,255,0.14); }
+    .review svg { width: 16px; height: 16px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="zoom" viewBox="0 0 24 24">
+      <path d="M2 17 8 7l4 7 5-9 5 8" fill="none" stroke="var(--red)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="loop" viewBox="0 0 24 24">
+      <path d="M2 14c4-8 7 6 11-2s7-4 9 2" fill="none" stroke="var(--green)" stroke-width="2.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="flag" viewBox="0 0 24 24">
+      <path d="M5 22V3" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M5 4h13l-3 4 3 4H5" fill="var(--lime)" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="track" aria-hidden="true">
+    <svg class="dash" style="top:9%" viewBox="0 0 960 60" preserveAspectRatio="none">
+        <path d="M-10 40 C 140 5, 260 58, 420 30 S 720 8, 970 34" fill="none" stroke="#e63946" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <svg style="top:34%" viewBox="0 0 960 60" preserveAspectRatio="none">
+        <path d="M-10 20 C 180 55, 340 6, 520 38 S 800 55, 970 18" fill="none" stroke="#2fbf4f" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+    </svg>
+    <svg class="dash" style="top:62%" viewBox="0 0 960 60" preserveAspectRatio="none">
+        <path d="M-10 30 C 120 58, 300 4, 480 32 S 780 60, 970 26" fill="none" stroke="#b5d637" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <svg style="top:86%" viewBox="0 0 960 60" preserveAspectRatio="none">
+        <path d="M-10 34 C 200 8, 380 52, 560 24 S 820 10, 970 40" fill="none" stroke="#4aa8e0" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+    </svg>
+</div>
+
+<div class="page">
+    <header class="masthead">
+        <h1><svg width="46" height="46" style="rotate:-8deg" aria-hidden="true"><use href="#flag"/></svg><span class="word marker">Isaac's World</span><svg width="46" height="46" style="rotate:8deg; transform:scaleX(-1)" aria-hidden="true"><use href="#flag"/></svg></h1>
+        <p class="tagline">Fast lines, wild colors, full speed ahead!</p>
+        <div class="start-line" aria-hidden="true"></div>
+    </header>
+
+    <section>
+        <h2 class="sec-title"><svg width="30" height="30" aria-hidden="true"><use href="#zoom"/></svg>My Paintings</h2>
+        <div class="art-cards">
+            <div class="art-card wide"><img src="../images/painting1.png" alt="Color Explosion"><div class="t"><svg width="20" height="20"><use href="#loop"/></svg>Color Explosion</div></div>
+            <div class="art-card"><img src="../images/painting4.png" alt="Tangled Lines"><div class="t"><svg width="20" height="20"><use href="#loop"/></svg>Tangled Lines</div></div>
+            <div class="art-card"><img src="../images/painting2.png" alt="Wild Swirl"><div class="t"><svg width="20" height="20"><use href="#loop"/></svg>Wild Swirl</div></div>
+            <div class="art-card"><img src="../images/painting5.png" alt="Star Storm"><div class="t"><svg width="20" height="20"><use href="#loop"/></svg>Star Storm</div></div>
+            <div class="art-card"><img src="../images/painting3.png" alt="Dark Fire"><div class="t"><svg width="20" height="20"><use href="#loop"/></svg>Dark Fire</div></div>
+        </div>
+    </section>
+
+    <section class="about">
+        <h2 class="sec-title"><svg width="30" height="30" aria-hidden="true"><use href="#zoom"/></svg>Hi, I'm Isaac!</h2>
+        <div class="card">
+            <svg class="corner" width="36" height="36" aria-hidden="true"><use href="#flag"/></svg>
+            I'm <strong>Isaac</strong>. I'm 3, and I paint super fast lines that go everywhere.
+            I love books, running, and hide and seek. This is my own website, and it gets
+            bigger every time I make something new!
+        </div>
+    </section>
+
+    <section class="soon">
+        <h2 class="sec-title"><svg width="30" height="30" aria-hidden="true"><use href="#zoom"/></svg>What's Coming Next?</h2>
+        <div class="cards">
+            <div class="card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <h3>My Books</h3><p>The stories I love best.</p><span class="chip">Soon</span>
+            </div>
+            <div class="card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z"/></svg>
+                <h3>Watch Me Paint</h3><p>Little videos of art being born.</p><span class="chip">Soon</span>
+            </div>
+            <div class="card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                <h3>Hide &amp; Seek</h3><p>My favorite games ever.</p><span class="chip">Soon</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="band">
+        <svg class="squig" viewBox="0 0 340 26" aria-hidden="true">
+            <path d="M4 14 C 40 2, 70 24, 110 12 S 180 2, 220 14 S 300 24, 336 10" fill="none" stroke="var(--lime)" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <h4>Thanks for visiting <span class="marker">Isaac's World</span></h4>
+        <p>Come back soon &mdash; new paintings all the time!</p>
+    </div>
+</div>
+
+<div class="review">
+    <a href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All looks
+    </a>
+    <div class="name">Look 1: The Race Track<small>Do you like this one, Isaac?</small></div>
+    <a href="option-b.html">
+        Next look
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+</div>
+
+</body>
+</html>

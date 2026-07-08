@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Look 2: The Star Storm Sky</title>
+<style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+        --sky-top: #1c2a55;
+        --sky-bottom: #0a1128;
+        --card: #16203f;
+        --card-edge: #2c3d73;
+        --text: #eef2ff;
+        --text-soft: #a7b3d9;
+        --star: #f5efd7;
+        --star-green: #3ecf6a;
+        --glow-green: #4ade80;
+        --glow-blue: #8ea2f5;
+        --peach: #ffab91;
+        --card-shadow: rgba(0, 0, 0, 0.45);
+    }
+    body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: radial-gradient(ellipse at 50% -20%, var(--sky-top), var(--sky-bottom) 70%);
+        background-attachment: fixed;
+        color: var(--text);
+        padding: clamp(1.6rem, 4vw, 3.5rem) 1rem 112px;
+        overflow-x: hidden;
+        position: relative;
+        min-height: 100vh;
+    }
+    .marker { font-family: 'Segoe Print', 'Comic Sans MS', 'Chalkboard SE', cursive; }
+
+    /* Isaac's hand-drawn sparkle stars, floating in the night */
+    .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .stars svg { position: absolute; }
+    @media (prefers-reduced-motion: no-preference) {
+        .stars .tw  { animation: twinkle 3.4s ease-in-out infinite alternate; }
+        .stars .tw2 { animation: twinkle 4.6s 1.2s ease-in-out infinite alternate; }
+        @keyframes twinkle { from { opacity: .4; } to { opacity: 1; } }
+    }
+
+    .page { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; }
+
+    .masthead { text-align: center; padding: 1rem 0 .6rem; }
+    h1 {
+        font-size: clamp(2.5rem, 8vw, 4.2rem);
+        line-height: 1.2;
+        display: inline-flex; align-items: center; gap: clamp(.4rem, 2vw, 1.1rem);
+        text-shadow: 0 0 26px rgba(142, 162, 245, 0.55);
+    }
+    .tagline { margin-top: .7rem; font-size: clamp(1rem, 3vw, 1.3rem); color: var(--text-soft); }
+    .comet {
+        margin: 1.5rem auto 0; width: min(380px, 78%); height: 22px;
+    }
+
+    section { padding: 2.8rem 0 0; }
+    .sec-title {
+        display: flex; align-items: center; justify-content: center; gap: .7rem;
+        font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+        margin-bottom: 1.7rem;
+    }
+    .sec-title svg { flex: none; }
+
+    .art-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem 1.6rem; }
+    @media (max-width: 640px) { .art-cards { grid-template-columns: 1fr; } }
+    .art-card {
+        background: white;
+        border-radius: 10px;
+        padding: 10px 10px 0;
+        box-shadow: 0 0 0 1px var(--card-edge), 0 14px 34px var(--card-shadow), 0 0 30px rgba(142, 162, 245, 0.14);
+    }
+    .art-card img { width: 100%; height: 210px; object-fit: cover; border-radius: 4px; display: block; }
+    .art-card .t {
+        display:flex; align-items:center; justify-content:center; gap:.5rem;
+        font-size: 1.12rem; font-weight: 700; padding: .6rem .2rem .65rem; color: #1c2340;
+    }
+    .art-card.wide { grid-column: 1 / -1; }
+    .art-card.wide img { height: 260px; }
+
+    .about .card {
+        max-width: 640px; margin: 0 auto; text-align: center;
+        background: var(--card);
+        border: 1.5px solid var(--card-edge);
+        border-radius: 24px;
+        padding: 2rem 2.2rem;
+        box-shadow: 0 14px 34px var(--card-shadow);
+        font-size: 1.15rem; line-height: 1.7;
+        position: relative;
+        color: var(--text);
+    }
+    .about .card strong { color: var(--glow-green); }
+    .about .card .corner { position: absolute; top: -18px; right: -10px; transform: rotate(12deg); }
+
+    .soon .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+    @media (max-width: 780px) { .soon .cards { grid-template-columns: 1fr; } }
+    .soon .card {
+        background: rgba(22, 32, 63, 0.85);
+        border: 1.5px dashed var(--glow-blue);
+        border-radius: 20px;
+        padding: 1.5rem 1.2rem;
+        text-align: center;
+    }
+    .soon .card svg { width: 34px; height: 34px; color: var(--glow-blue); margin-bottom: .6rem; }
+    .soon .card h3 { font-size: 1.15rem; margin-bottom: .3rem; }
+    .soon .card p { font-size: .93rem; color: var(--text-soft); }
+    .soon .chip {
+        display: inline-block; margin-top: .85rem;
+        font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 700;
+        color: #0a1128; background: var(--glow-green);
+        border-radius: 999px; padding: .34rem .9rem;
+    }
+
+    .band {
+        margin-top: 3rem;
+        background: rgba(10, 17, 40, 0.75);
+        border: 1.5px solid var(--card-edge);
+        color: var(--text);
+        border-radius: 20px;
+        padding: 2.1rem 1.4rem 2.3rem;
+        text-align: center;
+    }
+    .band .star-row { display: flex; justify-content: center; gap: 1.2rem; margin-bottom: .9rem; }
+    .band .star-row svg:nth-child(2n) { transform: rotate(18deg) scale(.8); }
+    .band .star-row svg:nth-child(3n) { transform: rotate(-14deg); }
+    .band h4 { font-size: clamp(1.15rem, 3.5vw, 1.5rem); font-weight: 600; }
+    .band h4 .marker { font-size: 1.15em; color: var(--glow-green); }
+    .band p { margin-top: .4rem; opacity: .75; font-size: .95rem; }
+
+    .review {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+        background: #060b1c; color: white;
+        border-top: 1px solid var(--card-edge);
+        display: flex; align-items: center; justify-content: space-between;
+        padding: .9rem 1.2rem; gap: .8rem;
+    }
+    .review .name { font-size: 1rem; font-weight: 600; text-align: center; }
+    .review .name small { display: block; font-weight: 400; color: rgba(255,255,255,0.6); font-size: .78rem; }
+    .review a { color: white; text-decoration: none; display: inline-flex; align-items: center; gap: .45rem; border: 1.5px solid rgba(255,255,255,0.45); border-radius: 999px; padding: .65rem 1.15rem; font-size: .95rem; font-weight: 600; }
+    .review a:hover { background: rgba(255,255,255,0.14); }
+    .review svg { width: 16px; height: 16px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Isaac's 4-point sparkle star, straight from Star Storm -->
+    <symbol id="sparkle" viewBox="0 0 24 24">
+      <path d="M12 1.5 C13 8.5 14 9.5 22.5 12 C14 14.5 13 15.5 12 22.5 C11 15.5 10 14.5 1.5 12 C10 9.5 11 8.5 12 1.5 Z"
+            fill="var(--star)" stroke="#0a1128" stroke-width=".6" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="sparkle-green" viewBox="0 0 24 24">
+      <path d="M12 1.5 C13 8.5 14 9.5 22.5 12 C14 14.5 13 15.5 12 22.5 C11 15.5 10 14.5 1.5 12 C10 9.5 11 8.5 12 1.5 Z"
+            fill="none" stroke="var(--star-green)" stroke-width="1.6" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="stars" aria-hidden="true">
+    <svg class="tw"  style="top:6%;  left:5%;  rotate:-10deg" width="30" height="30"><use href="#sparkle"/></svg>
+    <svg class="tw2" style="top:12%; right:7%;  rotate:14deg" width="44" height="44"><use href="#sparkle-green"/></svg>
+    <svg class="tw"  style="top:24%; left:11%; rotate:6deg"  width="18" height="18"><use href="#sparkle"/></svg>
+    <svg class="tw2" style="top:38%; right:4%;  rotate:-16deg" width="26" height="26"><use href="#sparkle"/></svg>
+    <svg class="tw"  style="top:52%; left:3%;  rotate:12deg" width="38" height="38"><use href="#sparkle-green"/></svg>
+    <svg class="tw2" style="top:66%; right:9%;  rotate:8deg"  width="20" height="20"><use href="#sparkle"/></svg>
+    <svg class="tw"  style="bottom:20%; left:8%; rotate:-8deg" width="24" height="24"><use href="#sparkle"/></svg>
+    <svg class="tw2" style="bottom:10%; right:6%; rotate:16deg" width="34" height="34"><use href="#sparkle-green"/></svg>
+</div>
+
+<div class="page">
+    <header class="masthead">
+        <h1><svg width="44" height="44" style="rotate:-12deg" aria-hidden="true"><use href="#sparkle"/></svg><span class="marker">Isaac's World</span><svg width="44" height="44" style="rotate:12deg" aria-hidden="true"><use href="#sparkle-green"/></svg></h1>
+        <p class="tagline">A whole sky full of stars &mdash; and every one is mine!</p>
+        <svg class="comet" viewBox="0 0 380 22" aria-hidden="true">
+            <path d="M6 16 C 90 2, 200 20, 374 8" fill="none" stroke="var(--peach)" stroke-width="4.5" stroke-linecap="round" opacity=".9"/>
+        </svg>
+    </header>
+
+    <section>
+        <h2 class="sec-title"><svg width="28" height="28" aria-hidden="true"><use href="#sparkle-green"/></svg>My Paintings</h2>
+        <div class="art-cards">
+            <div class="art-card wide"><img src="../images/painting5.png" alt="Star Storm"><div class="t">Star Storm</div></div>
+            <div class="art-card"><img src="../images/painting3.png" alt="Dark Fire"><div class="t">Dark Fire</div></div>
+            <div class="art-card"><img src="../images/painting1.png" alt="Color Explosion"><div class="t">Color Explosion</div></div>
+            <div class="art-card"><img src="../images/painting2.png" alt="Wild Swirl"><div class="t">Wild Swirl</div></div>
+            <div class="art-card"><img src="../images/painting4.png" alt="Tangled Lines"><div class="t">Tangled Lines</div></div>
+        </div>
+    </section>
+
+    <section class="about">
+        <h2 class="sec-title"><svg width="28" height="28" aria-hidden="true"><use href="#sparkle-green"/></svg>Hi, I'm Isaac!</h2>
+        <div class="card">
+            <svg class="corner" width="38" height="38" aria-hidden="true"><use href="#sparkle"/></svg>
+            I'm <strong>Isaac</strong>. I'm 3, and I drew every star in this sky.
+            I love books, running, and hide and seek. This is my own website, and it gets
+            bigger every time I make something new!
+        </div>
+    </section>
+
+    <section class="soon">
+        <h2 class="sec-title"><svg width="28" height="28" aria-hidden="true"><use href="#sparkle-green"/></svg>What's Coming Next?</h2>
+        <div class="cards">
+            <div class="card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <h3>My Books</h3><p>The stories I love best.</p><span class="chip">Soon</span>
+            </div>
+            <div class="card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z"/></svg>
+                <h3>Watch Me Paint</h3><p>Little videos of art being born.</p><span class="chip">Soon</span>
+            </div>
+            <div class="card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                <h3>Hide &amp; Seek</h3><p>My favorite games ever.</p><span class="chip">Soon</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="band">
+        <div class="star-row" aria-hidden="true">
+            <svg width="26" height="26"><use href="#sparkle"/></svg>
+            <svg width="26" height="26"><use href="#sparkle-green"/></svg>
+            <svg width="26" height="26"><use href="#sparkle"/></svg>
+            <svg width="26" height="26"><use href="#sparkle-green"/></svg>
+            <svg width="26" height="26"><use href="#sparkle"/></svg>
+        </div>
+        <h4>Thanks for visiting <span class="marker">Isaac's World</span></h4>
+        <p>Come back soon &mdash; new paintings all the time!</p>
+    </div>
+</div>
+
+<div class="review">
+    <a href="option-a.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+    </a>
+    <div class="name">Look 2: The Star Storm Sky<small>Do you like this one, Isaac?</small></div>
+    <a href="option-c.html">
+        Next look
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+</div>
+
+</body>
+</html>

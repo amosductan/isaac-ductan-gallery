@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pick a Look for Isaac's Site</title>
+<style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: linear-gradient(165deg, #fdf8e8 0%, #f2f8e0 55%, #fffdf5 100%);
+        color: #2b2620;
+        min-height: 100vh;
+        padding: 2rem 1.2rem 4rem;
+    }
+    .marker { font-family: 'Segoe Print', 'Comic Sans MS', 'Chalkboard SE', cursive; font-weight: normal; }
+    .wrap { max-width: 1100px; margin: 0 auto; text-align: center; }
+    h1 {
+        font-size: clamp(2rem, 6vw, 3.2rem);
+        margin-bottom: .5rem;
+        display: inline-flex; align-items: center; gap: .7rem;
+    }
+    h1 svg { flex: none; }
+    .sub { font-size: 1.12rem; color: #6b6254; margin-bottom: .5rem; max-width: 620px; margin-left:auto; margin-right:auto; }
+    .hint { font-size: 1rem; color: #9a9080; margin-bottom: 2.4rem; }
+    .options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+    @media (max-width: 820px) { .options { grid-template-columns: 1fr; } }
+    a.option {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        background: white;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 6px 30px rgba(60, 45, 15, 0.12);
+        transition: box-shadow .25s ease, outline .1s;
+        outline: 4px solid transparent;
+    }
+    a.option:hover, a.option:focus { box-shadow: 0 14px 44px rgba(60, 45, 15, 0.2); outline-color: #a8d332; }
+    .preview { height: 210px; position: relative; overflow: hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.6rem; }
+    .badge {
+        position: absolute; top: 12px; left: 12px;
+        background: rgba(255,255,255,0.92);
+        border-radius: 999px;
+        padding: .35rem .9rem;
+        font-weight: 700;
+        font-size: .95rem;
+        color: #2b2620;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        z-index: 2;
+    }
+    .preview svg.motif { position: absolute; }
+    .mini {
+        position: relative; z-index: 1;
+        width: 76%;
+        border-radius: 10px;
+        padding: .8rem .6rem .7rem;
+        background: var(--mp);
+        border: var(--mb, none);
+        box-shadow: 0 6px 18px rgba(20, 15, 5, 0.28);
+        text-align: center;
+    }
+    .mini .title { font-size: 1.1rem; color: var(--mi); }
+    .mini .cards { display:flex; gap:.55rem; justify-content:center; margin-top:.55rem; }
+    .mini .card { width: 62px; height: 46px; background: white; padding: 3px; border-radius: 3px; box-shadow: 0 3px 8px rgba(20,15,5,0.25); }
+    .mini .card:nth-child(1) { transform: rotate(-4deg); }
+    .mini .card:nth-child(3) { transform: rotate(3deg); }
+    .mini .card img { width:100%; height:100%; object-fit:cover; display:block; border-radius:2px; }
+    .prev-1 { background: #fffdf8; --mp:#ffffff; --mi:#26221e; --mb: 2px solid #26221e; }
+    .prev-2 { background: radial-gradient(ellipse at 50% -20%, #1c2a55, #0a1128); --mp:#16203f; --mi:#eef2ff; --mb: 1px solid #2c3d73; }
+    .prev-3 { background: #a8d332; --mp:#fdfbf5; --mi:#1c1a17; --mb: 3px solid #1c1a17; }
+    .info { padding: 1.4rem 1.4rem 1.7rem; }
+    .info h2 { font-size: 1.35rem; margin-bottom: .35rem; }
+    .info p { color: #6b6254; font-size: .98rem; margin-bottom: 1.1rem; min-height: 2.6em; }
+    .go {
+        display: inline-flex; align-items: center; gap: .5rem;
+        background: #2b2620; color: white;
+        border-radius: 999px; padding: .8rem 1.7rem;
+        font-weight: 700; font-size: 1.05rem;
+    }
+    .go svg { width: 18px; height: 18px; }
+    .home-link { margin-top: 3rem; font-size: .95rem; color: #9a9080; }
+    .home-link a { color: #6b6254; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="sparkle" viewBox="0 0 24 24">
+      <path d="M12 1.5 C13 8.5 14 9.5 22.5 12 C14 14.5 13 15.5 12 22.5 C11 15.5 10 14.5 1.5 12 C10 9.5 11 8.5 12 1.5 Z"
+            fill="#f7d842" stroke="#2b2620" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+    <h1>
+        <svg width="34" height="34" style="rotate:-12deg" aria-hidden="true"><use href="#sparkle"/></svg>
+        Isaac, here are your looks!
+        <svg width="34" height="34" style="rotate:12deg" aria-hidden="true"><use href="#sparkle"/></svg>
+    </h1>
+    <p class="sub">Dad made three looks for your website &mdash; all built from YOUR paintings. A race track, a starry sky, and a big color crash.</p>
+    <p class="hint">Tap a card to see the whole thing, big.</p>
+    <div class="options">
+        <a class="option" href="option-a.html">
+            <div class="preview prev-1">
+                <span class="badge">Look 1</span>
+                <svg class="motif" style="top:16px; right:-6px; width:110px; height:26px" viewBox="0 0 110 26" aria-hidden="true">
+                    <path d="M2 14 C 25 2, 45 24, 70 12 S 95 4, 108 14" fill="none" stroke="#e63946" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <svg class="motif" style="bottom:12px; left:-6px; width:110px; height:26px" viewBox="0 0 110 26" aria-hidden="true">
+                    <path d="M2 12 C 30 24, 55 2, 80 16 S 100 20, 108 8" fill="none" stroke="#2fbf4f" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <div class="mini">
+                    <div class="title marker">Isaac's World</div>
+                    <div class="cards">
+                        <div class="card"><img src="../images/painting1.png" alt=""></div>
+                        <div class="card"><img src="../images/painting4.png" alt=""></div>
+                        <div class="card"><img src="../images/painting2.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="info">
+                <h2>The Race Track</h2>
+                <p>Fast squiggle lines zooming across white paper, just like Tangled Lines.</p>
+                <span class="go">See it
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+            </div>
+        </a>
+        <a class="option" href="option-b.html">
+            <div class="preview prev-2">
+                <span class="badge">Look 2</span>
+                <svg class="motif" style="top:14px; right:14px; width:30px; height:30px; rotate:14deg" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 1.5 C13 8.5 14 9.5 22.5 12 C14 14.5 13 15.5 12 22.5 C11 15.5 10 14.5 1.5 12 C10 9.5 11 8.5 12 1.5 Z" fill="#f5efd7"/>
+                </svg>
+                <svg class="motif" style="bottom:14px; left:14px; width:24px; height:24px; rotate:-10deg" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 1.5 C13 8.5 14 9.5 22.5 12 C14 14.5 13 15.5 12 22.5 C11 15.5 10 14.5 1.5 12 C10 9.5 11 8.5 12 1.5 Z" fill="none" stroke="#3ecf6a" stroke-width="1.6"/>
+                </svg>
+                <div class="mini">
+                    <div class="title marker">Isaac's World</div>
+                    <div class="cards">
+                        <div class="card"><img src="../images/painting5.png" alt=""></div>
+                        <div class="card"><img src="../images/painting3.png" alt=""></div>
+                        <div class="card"><img src="../images/painting1.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="info">
+                <h2>The Star Storm Sky</h2>
+                <p>A dark night sky full of YOUR sparkle stars from Star Storm.</p>
+                <span class="go">See it
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+            </div>
+        </a>
+        <a class="option" href="option-c.html">
+            <div class="preview prev-3">
+                <span class="badge">Look 3</span>
+                <div class="mini">
+                    <div class="title marker">Isaac's World</div>
+                    <div class="cards">
+                        <div class="card"><img src="../images/painting2.png" alt=""></div>
+                        <div class="card"><img src="../images/painting1.png" alt=""></div>
+                        <div class="card"><img src="../images/painting3.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="info">
+                <h2>The Color Crash</h2>
+                <p>Big blocks of green, blue, red, and yellow paint, like Wild Swirl.</p>
+                <span class="go">See it
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+            </div>
+        </a>
+    </div>
+    <p class="home-link"><a href="../">Back to Isaac's gallery</a></p>
+</div>
+</body>
+</html>
