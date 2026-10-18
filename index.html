@@ -781,8 +781,10 @@
             right: 12%;
         }
     </style>
+<link rel="stylesheet" href="assets/accessibility.css">
 </head>
 <body>
+<a class="skip-link" href="#gallery">Skip to artwork</a>
 
     <!-- Navigation -->
     <nav id="navbar">
@@ -998,78 +1000,7 @@
         </div>
     </div>
 
-    <script>
-        // Scroll-triggered animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.15 });
-
-        document.querySelectorAll('.artwork-card').forEach(card => observer.observe(card));
-
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 80);
-        });
-
-        // Lightbox
-        const artworks = [
-            { src: 'images/painting1.png', title: 'Color Explosion', sub: 'No. 01 \u00b7 Digital Painting \u00b7 2026' },
-            { src: 'images/painting2.png', title: 'Wild Swirl', sub: 'No. 02 \u00b7 Digital Painting \u00b7 2026' },
-            { src: 'images/painting3.png', title: 'Dark Fire', sub: 'No. 03 \u00b7 Digital Painting \u00b7 2026' },
-            { src: 'images/painting4.png', title: 'Tangled Lines', sub: 'No. 04 \u00b7 Digital Painting \u00b7 2026' },
-            { src: 'images/painting5.png', title: 'Star Storm', sub: 'No. 05 \u00b7 Digital Painting \u00b7 2026' },
-        ];
-
-        let currentIndex = 0;
-
-        function openLightbox(index) {
-            currentIndex = index;
-            updateLightbox();
-            document.getElementById('lightbox').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        function updateLightbox() {
-            const art = artworks[currentIndex];
-            document.getElementById('lightbox-img').src = art.src;
-            document.getElementById('lightbox-img').alt = art.title;
-            document.getElementById('lightbox-title').textContent = art.title;
-            document.getElementById('lightbox-sub').textContent = art.sub;
-        }
-
-        function prevImage(e) {
-            e.stopPropagation();
-            currentIndex = (currentIndex - 1 + artworks.length) % artworks.length;
-            updateLightbox();
-        }
-
-        function nextImage(e) {
-            e.stopPropagation();
-            currentIndex = (currentIndex + 1) % artworks.length;
-            updateLightbox();
-        }
-
-        // Close lightbox on background click
-        document.getElementById('lightbox').addEventListener('click', closeLightbox);
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (!document.getElementById('lightbox').classList.contains('active')) return;
-            if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowLeft') { currentIndex = (currentIndex - 1 + artworks.length) % artworks.length; updateLightbox(); }
-            if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % artworks.length; updateLightbox(); }
-        });
-    </script>
+    <script src="assets/gallery.js"></script>
 
 </body>
 </html>

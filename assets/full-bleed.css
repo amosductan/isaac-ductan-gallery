@@ -1,0 +1,65 @@
+/* Concept: the child's actual painting is the opening, with quiet gallery chrome. */
+:root { --ink: #092754; --paper: #f3f8ff; --blue: #045bc2; --bolt: #fff34c; }
+body { background: var(--paper); color: var(--ink); font-family: 'Segoe UI',sans-serif; }
+nav#navbar { background: var(--paper); color: var(--ink); padding: 16px 4vw; box-shadow: none; }
+.nav-logo { font: 800 22px 'Segoe UI',sans-serif; color: var(--ink); }
+.nav-links a { color: var(--ink); font-weight: 600; text-transform: none; letter-spacing: 0; }
+.nav-links { gap: 26px; }
+.hero { height: auto; min-height: min(860px,100svh); padding: 110px 5vw 56px; display: flex; flex-direction:row; align-items: end; justify-content: start; text-align: left; background: #05a3df; isolation: isolate; }
+.hero::before,.hero::after { display:none; }
+.hero-art { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; }
+.hero-copy { background: #f3f8ff; padding: 28px 32px 30px; max-width: 650px; }
+.hero-copy h1 { font: 700 clamp(54px,7.6vw,108px)/.98 'Caveat','Segoe Print',cursive; letter-spacing:-.04em; color:var(--ink); margin:0 0 20px; }
+.hero-copy p { font-size:18px; line-height:1.5; margin:0 0 24px; max-width:34ch; }
+.hero-actions { display:flex; gap:12px; flex-wrap:wrap; }
+.hero-actions a { display:inline-flex; align-items:center; min-height:48px; padding:12px 19px; background:var(--blue); color:white; text-decoration:none; font-size:16px; font-weight:650; border:2px solid var(--blue); }
+.hero-actions a + a { color:var(--ink); background:transparent; border-color:var(--ink); }
+.art-credit { position:absolute; right:24px; bottom:24px; font-size:13px; padding:7px 10px; color:var(--ink); background:var(--paper); }
+.concept-note { padding:14px 5vw; background:#fff34c; font-size:14px; line-height:1.5; color:#17243b; }
+.concept-note a { color:inherit; }
+.gallery-section { padding:72px 5vw; max-width:none; background:var(--paper); scroll-margin-top:80px; }
+.section-header { text-align:left; margin-bottom:32px; }
+.section-label,.section-divider { display:none; }
+.section-title { font:750 clamp(32px,4vw,52px)/1.15 'Segoe UI',sans-serif; color:var(--ink); }
+.gallery-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px 24px; }
+.gallery-pair { display:contents; }
+.artwork-card,.artwork-card.featured,.artwork-card.featured.reverse { display:flex; flex-direction:column; min-height:0; border-radius:0; box-shadow:none; background:transparent; overflow:visible; cursor:zoom-in; transition:none; }
+.artwork-card:hover { transform:none; box-shadow:none; }
+.artwork-image-wrap,.featured .artwork-image-wrap,.artwork-card:not(.featured) .artwork-image-wrap { order:0; flex:none; min-height:0; width:100%; height:auto; aspect-ratio:4/3; background:#fff; }
+.artwork-image-wrap img,.featured .artwork-image-wrap img { width:100%; height:100%; object-fit:contain; transform:none !important; }
+.artwork-info,.featured .artwork-info { order:1; flex:none; padding:14px 0; width:100%; }
+.artwork-title { font:650 21px/1.3 'Segoe UI',sans-serif; color:var(--ink); margin:0 0 5px; }
+.artwork-number,.artwork-desc,.color-dots { display:none; }
+.artwork-medium { font:14px/1.5 'Segoe UI',sans-serif; letter-spacing:0; text-transform:none; margin:0; color:#425773; }
+.about-section { background:repeating-linear-gradient(transparent 0 31px,#cfdef1 31px 32px); }
+.about-section .section-label { display:none; }
+.grow-section { padding:60px 5vw; border-top:2px solid #b4cdea; }
+.grow-section h2 { font-size:32px; margin-bottom:12px; }
+.grow-section p { max-width:60ch; line-height:1.6; }
+.grow-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; margin-top:24px; list-style:none; }
+.grow-list li { padding:22px; background:#fff; border-left:4px solid var(--blue); line-height:1.6; }
+.grow-list time { display:block; font-size:13px; color:#425773; }
+body.isaac { --ink:#242222; --paper:#fffdf6; --blue:#923900; }
+.isaac .hero-copy h1 { font:850 clamp(54px,8vw,112px)/.95 'Segoe UI',sans-serif; letter-spacing:-.055em; }
+.isaac .hero { background:#fff; }
+.isaac .hero-art { object-position:60% center; }
+.isaac .concept-note { background:#d9f473; }
+.isaac .about-section { background:#f3efdF; }
+@media (max-width:800px) {
+  .gallery-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .art-credit { top:90px; bottom:auto; right:16px; }
+  .hero-copy { max-width:530px; }
+}
+@media (max-width:520px) {
+  nav#navbar { padding:14px 18px; } .nav-logo { font-size:18px; }
+  .nav-links { display:flex; gap:16px; } .nav-links a { font-size:13px; }
+  .hero { min-height:780px; min-height:92svh; padding:170px 18px 22px; }
+  .hero-copy { padding:24px 22px; width:100%; }
+  .hero-copy h1 { font-size:65px; } .isaac .hero-copy h1 { font-size:62px; }
+  .hero-copy p { font-size:16px; margin-bottom:20px; }
+  .hero-actions a { padding:10px 12px; font-size:14px; }
+  .gallery-section { padding:48px 18px; }
+  .gallery-grid { gap:24px 14px; } .artwork-title { font-size:17px; }
+  .artwork-medium { font-size:12px; }
+  .grow-list { grid-template-columns:1fr; }
+}

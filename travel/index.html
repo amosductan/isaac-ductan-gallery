@@ -222,15 +222,22 @@
             .album { columns: 2 150px; padding: 0 0.6rem; }
             .lb .lb-prev, .lb .lb-next { top: auto; bottom: 14px; transform: none; }
         }
+
+        :focus-visible { outline: 3px solid #1659c7; outline-offset: 4px; }
+        .lb:not(.open) { visibility: hidden; }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+            .hero > *, .hero { opacity: 1 !important; transform: none !important; }
+        }
     </style>
 </head>
 <body>
     <nav id="navbar">
-        <a href="/" class="nav-logo">Isaac D.</a>
+        <a href="../" class="nav-logo">Isaac D.</a>
         <ul class="nav-links">
-            <li><a href="/#gallery">Gallery</a></li>
-            <li><a href="/travel/" class="current">Travel</a></li>
-            <li><a href="/#about">About</a></li>
+            <li><a href="../#gallery">Gallery</a></li>
+            <li><a href="./" class="current">Travel</a></li>
+            <li><a href="../#about">About</a></li>
         </ul>
     </nav>
 
@@ -260,17 +267,17 @@
                 <div class="panel-list" id="placeList"></div>
             </aside>
         </div>
-        <p class="attrib-note">Map tiles by CARTO, data by OpenStreetMap contributors. Pins placed by Dad, adventures by Isaac.</p>
+        <p class="attrib-note">Map data and tiles by OpenStreetMap contributors. Pins placed by Dad, adventures by Isaac.</p>
     </section>
 
     <section class="section" id="album" style="padding-bottom: 1rem;">
         <div class="section-header">
             <p class="section-label">Snapshots</p>
-            <h2 class="section-title">Isaac's Photo Album</h2>
+            <h2 class="section-title">Isaac's Travel Postcards</h2>
             <div class="section-divider"></div>
         </div>
         <div class="album" id="albumGrid"></div>
-        <p class="album-empty" id="albumEmpty" hidden>Photos are on the way.</p>
+        <p class="album-empty" id="albumEmpty" hidden>No public postcards have been added yet.</p>
     </section>
 
     <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
@@ -321,7 +328,7 @@
         <div class="footer-name">Isaac Ductan</div>
         <p>Little Artist &middot; Made with <span class="footer-heart">&hearts;</span> &middot; 2026</p>
         <p class="credits" id="credits"></p>
-        <p style="margin-top: 0.8rem; font-size: 0.85rem;"><a class="footer-link" href="/">Back to the gallery</a> &nbsp;&middot;&nbsp; <a class="footer-link" href="https://mayaductan.com/travel/">See where big sister Maya has been &rarr;</a></p>
+        <p style="margin-top: 0.8rem; font-size: 0.85rem;"><a class="footer-link" href="../">Back to the gallery</a> &nbsp;&middot;&nbsp; <a class="footer-link" href="https://mayaductan.com/travel/">See where big sister Maya has been &rarr;</a></p>
     </footer>
 
     <script src="vendor/leaflet.js"></script>
@@ -337,6 +344,7 @@
     const REGION_NAMES = {"US-NJ": "New Jersey", "US-NY": "New York", "US-CT": "Connecticut", "US-PA": "Pennsylvania", "US-MD": "Maryland", "CA-ON": "Ontario"};
 
     const ic = (n, s = 20, cls = '') => `<svg class="ic ${cls}" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const sleep = ms => new Promise(r => setTimeout(r, ms));
     const byId = Object.fromEntries(PLACES.map(p => [p.id, p]));
 
@@ -356,6 +364,7 @@
         `<div class="stat"><span class="chip">${ic(i, 18)}</span><div><b data-n="${n}">0</b><br><span>${l}</span></div></div>`).join('');
     document.querySelectorAll('.stat b').forEach(el => {
         const target = +el.dataset.n, t0 = performance.now();
+        if (reducedMotion) { el.textContent = target; return; }
         const step = t => { const k = Math.min(1, (t - t0) / 900); el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
         requestAnimationFrame(step);
     });
@@ -364,9 +373,9 @@
     let touring = false, tourToken = 0;
     const map = L.map('map', { zoomControl: false, scrollWheelZoom: false, touchZoom: true, zoomSnap: 0.25, zoomDelta: 0.5, attributionControl: true });
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        subdomains: 'abcd', maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19, referrerPolicy: 'strict-origin-when-cross-origin',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     map.on('click', () => map.scrollWheelZoom.enable());   // wheel zoom only once the visitor has engaged
     map.on('mouseout', () => map.scrollWheelZoom.disable());
@@ -409,7 +418,7 @@
     const nycCluster = L.marker(nycCenter, {
         icon: L.divIcon({ className: '', html: `<div class="cluster">NYC<small>${nyc.length} places</small></div>`, iconSize: [54, 54], iconAnchor: [27, 27] }),
         title: 'New York City', zIndexOffset: 500
-    }).on('click', () => map.flyTo([40.745, -74.005], 12, { duration: 1.4 }));
+    }).on('click', () => map.flyTo([40.745, -74.005], 12, { duration: reducedMotion ? 0 : 1.4, animate: !reducedMotion }));
     function layoutMarkers() {
         const z = map.getZoom();
         PLACES.forEach(p => {
@@ -461,18 +470,19 @@
     async function goTo(id) {
         stopTour();
         const p = byId[id]; setActive(id);
-        map.flyTo([p.lat, p.lng], p.zoom, { duration: 1.5 });
+        map.flyTo([p.lat, p.lng], p.zoom, { duration: reducedMotion ? 0 : 1.5, animate: !reducedMotion });
         await sleep(1600); layoutMarkers(); markers[id].openPopup();
     }
 
     // ---------- fit everything
     const allBounds = L.latLngBounds([[EWR.lat, EWR.lng], [YYZ.lat, YYZ.lng], ...PLACES.map(p => [p.lat, p.lng])]);
-    function fitAll(animate) { map.fitBounds(allBounds, { paddingTopLeft: [40, 70], paddingBottomRight: [window.innerWidth > 860 ? 330 : 40, 40], animate }); }
+    function fitAll(animate) { map.fitBounds(allBounds, { paddingTopLeft: [40, 70], paddingBottomRight: [window.innerWidth > 860 ? 330 : 40, 40], animate: animate && !reducedMotion }); }
     fitAll(false); layoutMarkers();
     document.getElementById('resetBtn').addEventListener('click', () => { stopTour(); map.closePopup(); setActive(null); fitAll(true); });
 
     // ---------- the tour: take off, fly the arc, then hop every pin
     const tourBtn = document.getElementById('tourBtn');
+    if (reducedMotion) { tourBtn.hidden = true; tourBtn.style.display = 'none'; }
     function bearing(a, b) { const y = b[1] - a[1], x = b[0] - a[0]; return Math.atan2(y, x) * 180 / Math.PI; }
     // move a marker along a list of points over ms, rotating its icon to the direction of travel
     // icons must point NORTH (top-down car) or use angleOffset (the Lucide plane points north-east, so -45)
@@ -489,6 +499,7 @@
         });
     }
     async function startTour() {
+        if (reducedMotion) { fitAll(false); return; }
         const token = ++tourToken; touring = true;
         tourBtn.classList.add('on'); tourBtn.innerHTML = ic('stop', 16) + ' Stop the tour';
         document.getElementById('mapsection').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -507,7 +518,7 @@
         layoutMarkers(); airport.openPopup(); await sleep(1500); if (token !== tourToken) return; map.closePopup();
         map.flyTo([(EWR.lat + YYZ.lat) / 2, (EWR.lng + YYZ.lng) / 2 - 0.3], 7, { duration: 2.2 });
         await travel(plane, 'planeRot', ARC, 4200, -45, token); if (token !== tourToken) return;
-        map.flyTo([YYZ.lat, YYZ.lng], 11, { duration: 1.4 }); await sleep(1500); if (token !== tourToken) return;
+        map.flyTo([YYZ.lat, YYZ.lng], 11, { duration: reducedMotion ? 0 : 1.4, animate: !reducedMotion }); await sleep(1500); if (token !== tourToken) return;
         layoutMarkers(); yyz.openPopup(); await sleep(2000); if (token !== tourToken) return; map.closePopup();
         map.flyTo([43.36, -79.42], 10, { duration: 1.6 });
         await travel(car, 'carRot', ROAD, 5000, 0, token); if (token !== tourToken) return;
@@ -533,18 +544,38 @@
     PLACES.forEach(p => (p.photos || []).forEach((ph, i) => ALL.push({ p, ph, i })));
     const grid = document.getElementById('albumGrid');
     if (!ALL.length) { document.getElementById('albumEmpty').hidden = false; }
-    grid.innerHTML = ALL.map((x, k) => `<figure class="shot" data-k="${k}" style="--r:${((k * 53) % 5) - 2}deg"><img src="${x.ph.thumb}" alt="${x.p.name}" loading="lazy" width="${x.ph.w}" height="${x.ph.h}"><figcaption class="cap">${ic(x.p.icon, 14)}<b>${x.p.name}</b><small>${x.ph.postcard ? 'postcard' : (x.p.country === 'CA' ? 'Canada' : (REGION_NAMES[x.p.region] || ''))}</small></figcaption></figure>`).join('');
+    grid.innerHTML = ALL.map((x, k) => `<figure class="shot" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View ${x.p.name} postcard" data-k="${k}" style="--r:${((k * 53) % 5) - 2}deg"><img src="${x.ph.thumb}" alt="${x.p.name}" loading="lazy" width="${x.ph.w}" height="${x.ph.h}"><figcaption class="cap">${ic(x.p.icon, 14)}<b>${x.p.name}</b><small>${x.ph.postcard ? 'postcard' : (x.p.country === 'CA' ? 'Canada' : (REGION_NAMES[x.p.region] || ''))}</small></figcaption></figure>`).join('');
     const lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'), lbCap = document.getElementById('lbCap');
-    let cur = -1;
+    let cur = -1, lbReturn = null, lbInert = [];
+    lb.setAttribute("aria-hidden", "true");
     function showLb(k) {
         if (!ALL.length) return; cur = (k + ALL.length) % ALL.length; const x = ALL[cur];
         lbImg.src = x.ph.src; lbImg.alt = x.p.name;
         const c = x.ph.credit;
         lbCap.innerHTML = `<b>${x.p.name}</b>${x.p.sub}${c ? `<small>Postcard photo: ${c.title} by ${c.author || 'unknown'} · <a href="${c.license_url || c.source}" target="_blank" rel="noopener">${c.license}</a> · <a href="${c.source}" target="_blank" rel="noopener">Wikimedia Commons</a></small>` : `<small>${x.i + 1} of ${x.p.photos.length} · ${x.p.photos.length > 1 ? 'swipe or use the arrows' : 'tap outside to close'}</small>`}`;
-        lb.classList.add('open'); document.body.style.overflow = 'hidden';
+        if (!lb.classList.contains('open')) {
+            lbReturn = document.activeElement;
+            lb.setAttribute('aria-hidden', 'false');
+            lb.classList.add('open'); document.body.style.overflow = 'hidden';
+            document.getElementById('lbClose').focus();
+            lbInert = [...document.body.children].filter(el => el !== lb && !el.inert && !['SCRIPT','STYLE'].includes(el.tagName));
+            lbInert.forEach(el => el.inert = true);
+        }
         const nx = ALL[(cur + 1) % ALL.length]; if (nx) new Image().src = nx.ph.src;   // preload the next one
     }
-    function hideLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+    function hideLb() {
+        lbInert.forEach(el => el.inert = false); lbInert = [];
+        lb.classList.remove('open'); document.body.style.overflow = '';
+        lbReturn?.focus({preventScroll:true}); lb.setAttribute('aria-hidden', 'true');
+    }
+    grid.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.shot')) { e.preventDefault(); showLb(+e.target.dataset.k); } });
+    lb.addEventListener('keydown', e => {
+        if (e.key !== 'Tab') return;
+        const focusables = [...lb.querySelectorAll('button, a[href]')];
+        const first = focusables[0], last = focusables.at(-1);
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
     grid.addEventListener('click', e => { const f = e.target.closest('.shot'); if (f) showLb(+f.dataset.k); });
     document.addEventListener('click', e => {
         const b = e.target.closest('.pp-photos'); if (!b) return;
@@ -558,7 +589,7 @@
     let tx = null; lb.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
     lb.addEventListener('touchend', e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(dx) > 50) showLb(cur + (dx < 0 ? 1 : -1)); });
     const credited = ALL.filter(x => x.ph.credit);
-    if (credited.length) document.getElementById('credits').innerHTML = 'Postcard photos, until our own go up: ' + credited.map(x => `${x.p.name} — <a href="${x.ph.credit.source}" target="_blank" rel="noopener">${x.ph.credit.author || x.ph.credit.title}</a> (<a href="${x.ph.credit.license_url || x.ph.credit.source}" target="_blank" rel="noopener">${x.ph.credit.license}</a>)`).join(' · ') + '. Via Wikimedia Commons.';
+    if (credited.length) document.getElementById('credits').innerHTML = 'Public landmark postcards: ' + credited.map(x => `${x.p.name} — <a href="${x.ph.credit.source}" target="_blank" rel="noopener">${x.ph.credit.author || x.ph.credit.title}</a> (<a href="${x.ph.credit.license_url || x.ph.credit.source}" target="_blank" rel="noopener">${x.ph.credit.license}</a>)`).join(' · ') + '. Via Wikimedia Commons.';
     </script>
 </body>
 </html>
