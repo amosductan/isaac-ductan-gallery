@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Games</title>
+<style>
+@font-face{font-family:'Fredoka';font-style:normal;font-weight:500 700;font-display:swap;src:url(fonts/fredoka.woff2) format('woff2')}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:600 800;font-display:swap;src:url(fonts/nunito.woff2) format('woff2')}
+:root{--bg:#fffdf7;--ink:#2d2a26;--soft:#6f685f;--accent:#ff8a50;--accent-ink:#c2531d;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Nunito','Segoe UI',system-ui,sans-serif;font-weight:600;
+  padding:max(20px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+main{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.back{align-self:flex-start;color:var(--accent-ink);text-decoration:none;font-weight:800;font-size:.95rem;display:inline-flex;align-items:center;gap:.4em;padding:.4em 0}
+.back svg{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+h1{font-family:'Fredoka','Arial Rounded MT Bold',system-ui,sans-serif;font-weight:700;font-size:clamp(2.2rem,7vw,3.6rem);line-height:1;margin:0}
+h1 i{font-style:normal;color:var(--accent-ink)}
+.lead{margin:-10px 0 0;color:var(--soft);font-size:1.05rem}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:18px}
+.game{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;text-decoration:none;color:#fff;border-radius:28px;padding:22px 18px 20px;
+  background:linear-gradient(180deg,var(--b),var(--a));box-shadow:0 8px 0 rgba(0,0,0,.14),0 16px 28px rgba(0,0,0,.16);transition:transform .12s}
+.game:hover,.game:focus-visible{transform:translateY(-4px)}
+.game:focus-visible,.back:focus-visible{outline:4px solid var(--accent);outline-offset:3px}
+.pics{display:flex;justify-content:center;gap:6px;background:#fffdf8;border-radius:999px;padding:10px 18px;box-shadow:0 4px 0 rgba(0,0,0,.14)}
+.pics svg{width:clamp(48px,13vw,64px);height:clamp(48px,13vw,64px)}
+.name{font-family:'Fredoka','Arial Rounded MT Bold',system-ui,sans-serif;font-weight:700;font-size:1.6rem;line-height:1.05;text-shadow:0 3px 0 rgba(0,0,0,.2)}
+.blurb{font-size:.95rem;opacity:.92;text-wrap:balance}
+.play{margin-top:4px;font-family:'Fredoka','Arial Rounded MT Bold',system-ui,sans-serif;font-weight:600;font-size:1.25rem;background:#ffd43b;color:#2d2a26;border-radius:999px;padding:.45em 1.6em;box-shadow:0 5px 0 #e0ab00}
+@media (prefers-reduced-motion:reduce){.game{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="../"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Back to the gallery</a>
+  <h1>Matching <i>games</i></h1>
+  <p class="lead">Every two cards share one picture. Find it first!</p>
+  <div class="games">
+    <a class="game" href="picture-match/" style="--a:#17a094;--b:#0a5752">
+      <span class="pics"><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#2b2140" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M38 70l-16 14 4-24ZM62 70l16 14-4-24Z" fill="#ff5252"/><path d="M44 80c0 10 3 14 6 16 3-2 6-6 6-16Z" fill="#ff9f43"/><path d="M47 80c0 6 1 9 3 11 2-2 3-5 3-11Z" fill="#ffe14d" stroke="none"/><path d="M50 6c16 14 18 44 12 66H38C32 50 34 20 50 6Z" fill="#f4f4f4"/><circle cx="50" cy="40" r="9" fill="#4fc3f7"/><path d="M40 72h20l-4 8H44Z" fill="#9aa5b1"/></g></svg><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#2b2140" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M24 36 20 8l24 16ZM76 36l4-28-24 16Z" fill="#ffb86b"/><circle cx="50" cy="52" r="30" fill="#ffb86b"/><g fill="#2b2140" stroke="none"><circle cx="39" cy="46" r="4"/><circle cx="61" cy="46" r="4"/></g><path d="M46 58l4 4 4-4Z" fill="#ff8fc8"/><path d="M50 62v6M44 68c3 3 9 3 12 0" fill="none" stroke-width="3"/><path d="M8 50l22 4M8 62l22-4M92 50l-22 4M92 62l-22-4" fill="none" stroke-width="3"/></g></svg><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#2b2140" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><g fill="none" stroke-linecap="butt"><path d="M8 78A42 42 0 0 1 92 78" stroke-width="12"/><path d="M40 78A10 10 0 0 1 60 78" stroke-width="6"/><path d="M8 78A42 42 0 0 1 92 78" stroke="#ff4d4d" stroke-width="8"/><path d="M16 78A34 34 0 0 1 84 78" stroke="#ffb300" stroke-width="8"/><path d="M24 78A26 26 0 0 1 76 78" stroke="#ffe14d" stroke-width="8"/><path d="M32 78A18 18 0 0 1 68 78" stroke="#5ad66b" stroke-width="8"/><path d="M38 78A12 12 0 0 1 62 78" stroke="#4fc3f7" stroke-width="6"/></g></g></svg></span>
+      <span class="name">Picture Match Race</span>
+      <span class="blurb">Fruit, animals, rockets and more</span>
+      <span class="play">Play</span>
+    </a>
+    <a class="game" href="snowy/" style="--a:#5a9be0;--b:#16386e">
+      <span class="pics"><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#1f2a44" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="68" r="24" fill="#fff"/><circle cx="50" cy="34" r="17" fill="#fff"/><path d="M37 19h26l-3-14H40Z" fill="#3b4a6b"/><path d="M30 19h40" fill="none" stroke-width="6"/><g fill="#1f2a44" stroke="none"><circle cx="44" cy="31" r="2.5"/><circle cx="56" cy="31" r="2.5"/><circle cx="50" cy="62" r="2.5"/><circle cx="50" cy="74" r="2.5"/></g><path d="M50 35l13 3-13 3Z" fill="#ff8a2a" stroke-width="2.5"/><path d="M35 48c9 6 21 6 30 0" fill="none" stroke="#ff4d6d" stroke-width="6"/></g></svg><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#1f2a44" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M24 46L8 66l18-6ZM76 46l16 20-18-6Z" fill="#3b4a6b"/><path d="M34 92h14l-7-8ZM52 92h14l-7-8Z" fill="#ff9f43" stroke-width="2.5"/><ellipse cx="50" cy="50" rx="28" ry="38" fill="#3b4a6b"/><ellipse cx="50" cy="60" rx="18" ry="25" fill="#fff" stroke="none"/><g fill="#fff" stroke="none"><circle cx="41" cy="32" r="7"/><circle cx="59" cy="32" r="7"/></g><g fill="#1f2a44" stroke="none"><circle cx="42" cy="32" r="3"/><circle cx="58" cy="32" r="3"/></g><path d="M44 40h12l-6 8Z" fill="#ff9f43" stroke-width="2.5"/></g></svg><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#1f2a44" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M32 46c-8-6-20-2-18 9 2 9 11 10 18 7v12h40V40c0-28-40-28-40 0Z" fill="#ff4d6d"/><path d="M28 72h48v16H28Z" fill="#fff"/><path d="M44 40l8 8 8-8" fill="none" stroke="#fff" stroke-width="4"/></g></svg></span>
+      <span class="name">Snowy Match Race</span>
+      <span class="blurb">Snowmen, mittens and Jack the penguin</span>
+      <span class="play">Play</span>
+    </a>
+    <a class="game" href="squishy/" style="--a:#c58cf0;--b:#5b3fb8">
+      <span class="pics"><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#3a2a55" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M50 3l8 35H42Z" fill="#ffd43b"/><path d="M46 21l9-4M45 30l12-5" fill="none" stroke-width="2.5"/><circle cx="16" cy="50" r="9" fill="#ff8fc8"/><circle cx="10" cy="65" r="8" fill="#c084fc"/><circle cx="14" cy="80" r="8" fill="#7fd3ff"/><path d="M25 52l-2-22 18 10Z" fill="#fff"/><g transform="matrix(-1 0 0 1 100 0)"><path d="M25 52l-2-22 18 10Z" fill="#fff"/></g><path d="M50 36C72 36 88 52 88 69C88 86 72 92 50 92S12 86 12 69C12 52 28 36 50 36Z" fill="#fff"/><path d="M50 36C72 36 88 52 88 69C88 86 72 92 50 92S12 86 12 69C12 52 28 36 50 36Z" fill="none"/><g stroke="none"><g fill="#3a2a55"><circle cx="37" cy="62" r="3.8"/><circle cx="63" cy="62" r="3.8"/></g><g fill="#fff"><circle cx="38.3" cy="60.6" r="1.2666666666666666"/><circle cx="64.3" cy="60.6" r="1.2666666666666666"/></g></g><g fill="#ff7fab" stroke="none" opacity=".7"><circle cx="29" cy="69" r="4.2"/><circle cx="71" cy="69" r="4.2"/></g><path d="M45 68q5 5 10 0" fill="none" stroke-width="2.5"/><path d="M37 41c6-9 21-9 26 1-7 6-21 6-26-1Z" fill="#ff8fc8"/></g></svg><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#3a2a55" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><g fill="none"><path d="M18 38L9 28M14 52H7M17 66L9 75" stroke-width="11"/><path d="M18 38L9 28M14 52H7M17 66L9 75" stroke="#ff5c9d" stroke-width="5"/></g><g transform="matrix(-1 0 0 1 100 0)"><g fill="none"><path d="M18 38L9 28M14 52H7M17 66L9 75" stroke-width="11"/><path d="M18 38L9 28M14 52H7M17 66L9 75" stroke="#ff5c9d" stroke-width="5"/></g></g><path d="M50 16C74 16 90 40 90 63C90 83 74 91 50 91S10 83 10 63C10 40 26 16 50 16Z" fill="#ffc4dc"/><ellipse cx="50" cy="76" rx="21" ry="11" fill="#fff0f6" stroke="none"/><path d="M50 16C74 16 90 40 90 63C90 83 74 91 50 91S10 83 10 63C10 40 26 16 50 16Z" fill="none"/><g stroke="none"><g fill="#3a2a55"><circle cx="35" cy="52" r="3.8"/><circle cx="65" cy="52" r="3.8"/></g><g fill="#fff"><circle cx="36.3" cy="50.6" r="1.2666666666666666"/><circle cx="66.3" cy="50.6" r="1.2666666666666666"/></g></g><g fill="#ff7fab" stroke="none" opacity=".7"><circle cx="27" cy="59" r="4.2"/><circle cx="73" cy="59" r="4.2"/></g><path d="M40 59q10 7 20 0" fill="none" stroke-width="2.5"/></g></svg><svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#3a2a55" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><g fill="none"><path d="M58 26L66 5" stroke-width="12"/><path d="M58 26L66 5" stroke="#7fd3ff" stroke-width="5"/></g><path d="M22 30h56l-7 58c-1 6-41 6-42 0Z" fill="#f6d9b8"/><rect x="16" y="22" width="68" height="11" rx="5" fill="#ff8fc8"/><g fill="#5a3a2a" stroke="none"><circle cx="34" cy="80" r="4.5"/><circle cx="45" cy="84" r="4.5"/><circle cx="56" cy="80" r="4.5"/><circle cx="66" cy="83" r="4.5"/><circle cx="40" cy="72" r="4"/><circle cx="61" cy="72" r="4"/></g><g stroke="none"><g fill="#3a2a55"><circle cx="40" cy="50" r="3.8"/><circle cx="60" cy="50" r="3.8"/></g><g fill="#fff"><circle cx="41.3" cy="48.6" r="1.2666666666666666"/><circle cx="61.3" cy="48.6" r="1.2666666666666666"/></g></g><g fill="#ff7fab" stroke="none" opacity=".7"><circle cx="33" cy="57" r="3.6"/><circle cx="67" cy="57" r="3.6"/></g><path d="M45 56q5 5 10 0" fill="none" stroke-width="2.5"/></g></svg></span>
+      <span class="name">Squishy Match Party</span>
+      <span class="blurb">Squishy animals, treats and Mallow the bear</span>
+      <span class="play">Play</span>
+    </a>
+  </div>
+</main>
+</body>
+</html>
